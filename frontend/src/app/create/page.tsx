@@ -1,45 +1,78 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi"
-import { baseSepolia } from "wagmi/chains"
 import { useRouter } from "next/navigation"
-import { PLUS_ONE_ABI, PLUS_ONE_ADDRESS } from "@/lib/contracts"
+import { PLUS_ONE_ABI, ERC20_ABI, DREAM_COST } from "@/lib/contracts"
+import { useChainContracts } from "@/lib/useChainContracts"
+import { useUsdcBalance } from "@/lib/useUsdcBalance"
+import { Logo } from "@/components/Logo"
 
 export default function CreatePage() {
   const router = useRouter()
   const { address, isConnected } = useAccount()
+  const { chainId, plusOneAddress, usdcAddress } = useChainContracts()
   const [thought, setThought] = useState("")
+  const [step, setStep] = useState<"input" | "approving" | "registering">("input")
+  const [error, setError] = useState("")
+
+  // USDC balance check
+  const { balanceUsd: usdcBalanceUsd } = useUsdcBalance(address)
 
   // Check if already registered
   const { data: profile } = useReadContract({
-    address:      PLUS_ONE_ADDRESS.baseSepolia,
+    address:      plusOneAddress,
     abi:          PLUS_ONE_ABI,
     functionName: "getProfile",
     args:         address ? [address] : undefined,
-    chainId:      baseSepolia.id,
+    chainId,
     query:        { enabled: !!address },
   })
 
-  const { writeContract, data: txHash } = useWriteContract()
-  const { isLoading, isSuccess } = useWaitForTransactionReceipt({ hash: txHash })
+  // Check USDC allowance
+  const { data: allowance, refetch: refetchAllowance } = useReadContract({
+    address: usdcAddress, abi: ERC20_ABI, functionName: "allowance",
+    args: address ? [address, plusOneAddress] : undefined,
+    chainId, query: { enabled: !!address },
+  })
 
-  if (isSuccess && address) {
-    router.push(`/${address}`)
-  }
+  // Approve USDC
+  const { writeContract: approveUsdc, data: approveTxHash } = useWriteContract()
+  const { isSuccess: approveSuccess } = useWaitForTransactionReceipt({ hash: approveTxHash })
+
+  // Register
+  const { writeContract: registerContract, data: registerTxHash } = useWriteContract()
+  const { isLoading: isRegistering, isSuccess: registerSuccess } = useWaitForTransactionReceipt({ hash: registerTxHash })
+
+  // After approve succeeds, proceed to register
+  useEffect(() => {
+    if (approveSuccess && step === "approving") {
+      refetchAllowance()
+      setStep("registering")
+      registerContract({
+        address:      plusOneAddress,
+        abi:          PLUS_ONE_ABI,
+        functionName: "register",
+        args:         [thought.trim()],
+        chainId,
+      })
+    }
+  }, [approveSuccess]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Redirect to personal page after successful registration
+  useEffect(() => {
+    if (registerSuccess && address) {
+      router.push(`/${address}`)
+    }
+  }, [registerSuccess, address, router])
 
   if (!isConnected) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+        <Logo />
         <p className="text-neutral-500 text-sm tracking-widest">
           connect your wallet first.
         </p>
-        <button
-          onClick={() => router.push("/")}
-          className="mt-8 text-neutral-600 text-xs tracking-widest hover:text-neutral-400 transition-colors"
-        >
-          ← back
-        </button>
       </main>
     )
   }
@@ -52,15 +85,42 @@ export default function CreatePage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!thought.trim()) return
+    setError("")
 
-    writeContract({
-      address:      PLUS_ONE_ADDRESS.baseSepolia,
-      abi:          PLUS_ONE_ABI,
-      functionName: "register",
-      args:         [thought.trim()],
-      chainId:      baseSepolia.id,
-    })
+    // Check USDC balance ($1 needed)
+    if (usdcBalanceUsd < 1) {
+      setError(`Not enough USDC. Need $1.00, have $${usdcBalanceUsd.toFixed(2)}`)
+      return
+    }
+
+    const hasAllowance = allowance != null && allowance >= DREAM_COST
+
+    if (!hasAllowance) {
+      // Step 1: approve USDC first
+      setStep("approving")
+      approveUsdc({
+        address: usdcAddress, abi: ERC20_ABI, functionName: "approve",
+        args: [plusOneAddress, BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")],
+        chainId,
+      })
+    } else {
+      // Already approved, register directly
+      setStep("registering")
+      registerContract({
+        address:      plusOneAddress,
+        abi:          PLUS_ONE_ABI,
+        functionName: "register",
+        args:         [thought.trim()],
+        chainId,
+      })
+    }
   }
+
+  const buttonText = step === "approving"
+    ? "approving USDC..."
+    : step === "registering" || isRegistering
+      ? "registering..."
+      : "I'm in. ($1 USDC)"
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4">
@@ -70,6 +130,9 @@ export default function CreatePage() {
           <div className="text-4xl font-light text-white mb-4">+1</div>
           <p className="text-xs text-neutral-500 tracking-widest">
             what would you do?
+          </p>
+          <p className="text-xs text-neutral-600 tracking-widest mt-2">
+            publishing costs $1 USDC → Dream Fund
           </p>
         </div>
 
@@ -91,22 +154,21 @@ export default function CreatePage() {
             </p>
           </div>
 
+          {error && (
+            <p className="text-xs text-amber-400 tracking-widest text-center">{error}</p>
+          )}
+
           <button
             type="submit"
-            disabled={!thought.trim() || isLoading}
+            disabled={!thought.trim() || step !== "input"}
             className="w-full py-3 border border-white text-white text-sm tracking-widest hover:bg-white hover:text-black transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {isLoading ? "registering..." : "I'm in."}
+            {buttonText}
           </button>
         </form>
 
-        <button
-          onClick={() => router.push("/")}
-          className="w-full text-center text-neutral-700 text-xs tracking-widest hover:text-neutral-500 transition-colors"
-        >
-          ← back
-        </button>
       </div>
+      <Logo />
     </main>
   )
 }
