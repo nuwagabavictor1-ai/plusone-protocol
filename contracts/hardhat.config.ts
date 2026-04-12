@@ -48,6 +48,17 @@ const config: HardhatUserConfig = {
       url: process.env.BASE_RPC_URL || "https://mainnet.base.org",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
     },
+    "bsc-testnet": {
+      url: process.env.BSC_TESTNET_RPC_URL || "https://data-seed-prebsc-1-s1.binance.org:8545",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+    bsc: {
+      url: process.env.BSC_RPC_URL || "https://bsc-dataseed.binance.org",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    },
+  },
+  sourcify: {
+    enabled: true,
   },
   etherscan: {
     apiKey: {

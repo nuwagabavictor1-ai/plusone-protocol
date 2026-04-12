@@ -127,7 +127,7 @@ export default function ProfilePage({ params }: Props) {
               disabled={isApproving || isGiving}
               className="w-full py-3 border border-white text-white text-sm tracking-widest hover:bg-white hover:text-black transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {isApproving ? "approving..." : isGiving ? "sending +1..." : hasAllowance ? "+1" : "approve & +1"}
+              {isApproving ? "approving..." : isGiving ? "sending +1..." : "try +1"}
             </button>
           )}
 

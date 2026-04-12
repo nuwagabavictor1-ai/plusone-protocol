@@ -9,7 +9,10 @@
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
-    "deploy:testnet": "hardhat run scripts/deploy.ts --network base-sepolia"
+    "deploy:base-testnet": "hardhat run scripts/deploy.ts --network base-sepolia",
+    "deploy:bsc-testnet": "hardhat run scripts/deploy.ts --network bsc-testnet",
+    "deploy:base": "hardhat run scripts/deploy.ts --network base",
+    "deploy:bsc": "hardhat run scripts/deploy.ts --network bsc"
   },
   "keywords": [],
   "author": "",

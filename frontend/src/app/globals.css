@@ -2,11 +2,101 @@
 
 :root {
   --font-mono: ui-monospace, "SF Mono", "Fira Code", monospace;
+  --bg: #040f1c;
 }
 
 body {
-  background: #0a0a0a;
+  background: #040f1c;
   color: #f5f5f5;
   font-family: var(--font-mono);
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Night sky ── */
+@keyframes star-twinkle {
+  50% { opacity: 0.04; transform: scale(0.5); }
+}
+@keyframes moon-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes shoot1 {
+  0%, 80%   { opacity: 0; transform: translate(0,0); }
+  83%        { opacity: 0.9; }
+  93%, 100% { opacity: 0; transform: translate(260px,-170px); }
+}
+@keyframes shoot2 {
+  0%, 74%   { opacity: 0; transform: translate(0,0); }
+  77%        { opacity: 0.7; }
+  86%, 100% { opacity: 0; transform: translate(210px,-140px); }
+}
+
+/* ── Character walking ── */
+@keyframes leg-l {
+  from { transform: rotate(-24deg); }
+  to   { transform: rotate(20deg); }
+}
+@keyframes leg-r {
+  from { transform: rotate(20deg); }
+  to   { transform: rotate(-24deg); }
+}
+@keyframes arm-l {
+  from { transform: rotate(20deg); }
+  to   { transform: rotate(-16deg); }
+}
+@keyframes arm-r {
+  from { transform: rotate(-16deg); }
+  to   { transform: rotate(20deg); }
+}
+
+.char-leg-l {
+  transform-box: view-box;
+  transform-origin: 28px 76px;
+  animation: leg-l 0.42s ease-in-out infinite alternate;
+}
+.char-leg-r {
+  transform-box: view-box;
+  transform-origin: 52px 76px;
+  animation: leg-r 0.42s ease-in-out infinite alternate;
+}
+.char-arm-l {
+  transform-box: view-box;
+  transform-origin: 16px 54px;
+  animation: arm-l 0.42s ease-in-out infinite alternate;
+}
+.char-arm-r {
+  transform-box: view-box;
+  transform-origin: 64px 54px;
+  animation: arm-r 0.42s ease-in-out infinite alternate;
+}
+
+/* ── UI ── */
+@keyframes title-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.08); }
+  50%       { text-shadow: 0 0 50px rgba(255,255,255,0.28), 0 0 100px rgba(255,255,255,0.08); }
+}
+@keyframes bubble-in {
+  from { opacity: 0; transform: scale(0.88) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes reveal-text {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  50%       { opacity: 1; transform: scale(1)   rotate(180deg); }
+}
+
+@keyframes border-flicker {
+  0%, 100% { box-shadow: 0 0 0 2px currentColor, 0 0 14px 4px currentColor; }
+  40%       { box-shadow: 0 0 0 3.5px currentColor, 0 0 28px 9px currentColor; }
+  70%       { box-shadow: 0 0 0 1.5px currentColor, 0 0 8px 2px currentColor; }
+}
+
+@keyframes usdc-bounce {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  30%       { transform: translateY(-8px) scaleY(1.1); }
+  55%       { transform: translateY(-3px) scaleY(0.95); }
+  70%       { transform: translateY(-5px) scaleY(1.04); }
 }
