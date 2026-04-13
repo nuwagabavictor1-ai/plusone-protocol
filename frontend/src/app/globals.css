@@ -840,6 +840,70 @@ body {
 }
 
 /* ══════════════════════════════════════════
+   Space Ring — full-viewport orbital frame
+   ══════════════════════════════════════════ */
+.space-ring-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  perspective: 900px;
+  overflow: hidden;
+}
+
+.space-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160%;
+  height: 160%;
+  transform: translate(-50%, -50%) rotateX(72deg);
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 210, 80, 0.12);
+  box-shadow:
+    0 0 40px 2px rgba(255, 210, 80, 0.06),
+    0 0 80px 4px rgba(100, 255, 150, 0.03),
+    inset 0 0 40px 2px rgba(255, 210, 80, 0.04),
+    inset 0 0 80px 4px rgba(100, 255, 150, 0.02);
+  animation: ring-spin 90s linear infinite;
+}
+
+.space-ring-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 155%;
+  height: 155%;
+  transform: translate(-50%, -50%) rotateX(72deg);
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 210, 80, 0.06);
+  box-shadow:
+    0 0 20px 1px rgba(255, 210, 80, 0.03);
+  animation: ring-spin 90s linear infinite reverse;
+}
+
+.space-ring-coin {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe888 30%, #ffcc33 70%, rgba(255,200,60,0) 100%);
+  box-shadow: 0 0 6px 2px rgba(255, 210, 80, 0.3);
+  offset-path: ellipse(80% 15% at 50% 50%);
+  animation: coin-orbit 60s linear infinite;
+}
+
+@keyframes ring-spin {
+  from { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(0deg); }
+  to   { transform: translate(-50%, -50%) rotateX(72deg) rotateZ(360deg); }
+}
+
+@keyframes coin-orbit {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+/* ══════════════════════════════════════════
    Mobile Responsive — < 480px
    ══════════════════════════════════════════ */
 .home-title { font-size: 6rem; }

@@ -9,6 +9,7 @@ import { useChainContracts } from "@/lib/useChainContracts"
 import { NightScene } from "@/components/NightScene"
 import { WalletModal } from "@/components/WalletModal"
 import { Logo } from "@/components/Logo"
+import { SpaceRing } from "@/components/SpaceRing"
 
 export default function HomePage() {
   const router   = useRouter()
@@ -169,6 +170,7 @@ export default function HomePage() {
   return (
     <>
       <NightScene paused={!animOn} excludeRef={contentRef} onConnectWallet={() => setWalletModal(true)} walletModalOpen={walletModal} auroraColor="0,255,100" auroraPreset="home" />
+      <SpaceRing />
       <WalletModal open={walletModal} onClose={() => setWalletModal(false)} />
 
       <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 home-main pointer-events-none">
@@ -337,10 +339,7 @@ export default function HomePage() {
             {/* Bottom section — clean layout */}
             <div className="home-bottom-section" style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%) scale(0.67)", transformOrigin: "center bottom", display: "flex", flexDirection: "column", alignItems: "center", zIndex: 15, pointerEvents: "auto" }}>
 
-              {/* Row 1: Möbius ring */}
-              <MobiusCoinTrack />
-
-              {/* Row 2: Merit Box + spacing + Dream Bowl */}
+              {/* Merit Box + Dream Bowl */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "60px", marginTop: "8px" }}>
 
                 {/* LEFT: Merit Pool 功德箱 */}
