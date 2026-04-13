@@ -219,14 +219,17 @@ export default function HomePage() {
           </div>
 
           {/* "what if" — gradient text, each line different hue */}
-          <div className="select-none" style={{ maxWidth: "340px", textAlign: "center", overflow: "visible" }}>
+          <div className="select-none" style={{ maxWidth: "340px", textAlign: "center" }}>
             <p style={{
               fontFamily:    "'Caveat', cursive",
               fontSize:      "1.7rem",
               fontWeight:    700,
-              color:         "rgba(200,220,255,0.85)",
-              lineHeight:    1.8,
+              background:    "linear-gradient(135deg, rgba(220,200,255,0.95) 0%, rgba(170,230,255,1) 50%, rgba(200,255,230,0.95) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor:  "transparent",
+              lineHeight:    1.5,
               letterSpacing: "0.02em",
+              paddingBottom: "6px",
             }}>
               what if everyone give you 1 usdc?
             </p>
@@ -234,9 +237,12 @@ export default function HomePage() {
               fontFamily:    "'Caveat', cursive",
               fontSize:      "1.9rem",
               fontWeight:    700,
-              color:         "rgba(255,220,200,0.9)",
-              lineHeight:    1.8,
+              background:    "linear-gradient(135deg, rgba(255,220,190,1) 0%, rgba(255,200,240,1) 50%, rgba(220,200,255,1) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor:  "transparent",
+              lineHeight:    1.5,
               letterSpacing: "0.02em",
+              paddingBottom: "6px",
             }}>
               what would you do?
             </p>
