@@ -739,9 +739,9 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         <span style={{
           fontFamily:    "'Righteous', cursive",
           fontSize:      "9px",
-          color:         isConnected ? "rgba(68,255,136,0.8)" : "rgba(255,255,255,0.5)",
+          color:         isConnected ? "rgba(68,255,136,0.8)" : "rgba(255,220,180,0.85)",
           letterSpacing: "0.05em",
-          textShadow:    isConnected ? "0 0 8px rgba(68,255,136,0.4)" : "none",
+          textShadow:    isConnected ? "0 0 8px rgba(68,255,136,0.4)" : "0 0 6px rgba(255,200,100,0.2)",
           userSelect:    "none",
         }}>
           {isConnected && address
