@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react"
 import { useAccount, useDisconnect } from "wagmi"
+import { PixelAvatar } from "@/components/PixelAvatar"
 
 // Deterministic star positions — golden ratio distribution, no hydration mismatch
 const STARS = Array.from({ length: 220 }, (_, i) => ({
@@ -17,13 +18,13 @@ const STARS = Array.from({ length: 220 }, (_, i) => ({
 // 7 wishes — what to do after collecting 1 USDC from everyone
 // baseSize is the desktop reference; actual size = baseSize * screenScale
 const WISHES = [
-  { baseSize: 130, rgb: "255,148,72",  text: "Open a free coding\nschool for kids" },
-  { baseSize: 100, rgb: "255,218,55",  text: "Launch a scholarship\nfor first-gen students" },
-  { baseSize: 120, rgb: "75,205,118",  text: "A documentary about\nforgotten veterans" },
-  { baseSize: 90,  rgb: "168,120,255", text: "Fund 100 hearing aids\nfor children" },
-  { baseSize: 115, rgb: "78,162,255",  text: "A micro-farm that feeds\nthe neighborhood" },
-  { baseSize: 95,  rgb: "95,228,182",  text: "Build a playground\nin a refugee camp" },
-  { baseSize: 125, rgb: "255,168,210", text: "Turn an abandoned building\ninto a community art space" },
+  { baseSize: 130, rgb: "255,148,72",  text: "Open a free coding\nschool for kids", avatarId: 3 },
+  { baseSize: 100, rgb: "255,218,55",  text: "Launch a scholarship\nfor first-gen students", avatarId: 18 },
+  { baseSize: 120, rgb: "75,205,118",  text: "A documentary about\nforgotten veterans", avatarId: 45 },
+  { baseSize: 90,  rgb: "168,120,255", text: "Fund 100 hearing aids\nfor children", avatarId: 72 },
+  { baseSize: 115, rgb: "78,162,255",  text: "A micro-farm that feeds\nthe neighborhood", avatarId: 97 },
+  { baseSize: 95,  rgb: "95,228,182",  text: "Build a playground\nin a refugee camp", avatarId: 120 },
+  { baseSize: 125, rgb: "255,168,210", text: "Turn an abandoned building\ninto a community art space", avatarId: 140 },
 ]
 
 // Responsive: compute bubble scale and visible count from viewport width
@@ -739,9 +740,9 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         <span style={{
           fontFamily:    "'Righteous', cursive",
           fontSize:      "9px",
-          color:         isConnected ? "rgba(68,255,136,0.8)" : "rgba(255,220,180,0.85)",
+          color:         isConnected ? "rgba(68,255,136,0.8)" : "rgba(255,255,255,0.9)",
           letterSpacing: "0.05em",
-          textShadow:    isConnected ? "0 0 8px rgba(68,255,136,0.4)" : "0 0 6px rgba(255,200,100,0.2)",
+          textShadow:    isConnected ? "0 0 8px rgba(68,255,136,0.4)" : "none",
           userSelect:    "none",
         }}>
           {isConnected && address
@@ -783,7 +784,7 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
             const text   = el.querySelector("[data-role='text']") as HTMLElement
             const action = el.querySelector("[data-role='action']") as HTMLElement
             if (label)  { label.style.animation = "none"; label.style.opacity = "0" }
-            if (text)   { text.style.opacity = "1"; text.style.transform = "translateY(0)"; text.style.color = "#1a1a2e"; text.style.textShadow = "none" }
+            if (text)   { text.style.opacity = "1"; text.style.transform = "translateY(0)"; text.style.color = "rgba(255,255,255,0.95)"; text.style.textShadow = "0 1px 3px rgba(0,0,0,0.4)" }
             if (action) { action.style.opacity = "1"; action.style.transform = "translateY(0)" }
           }}
           onMouseLeave={() => {
@@ -798,24 +799,29 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
             if (action) { action.style.opacity = "0"; action.style.transform = "translateY(4px)" }
           }}
         >
-          {/* +1 brand label — Righteous font + shimmer */}
-          <span
+          {/* Avatar label — PixelAvatar or +1 for user bubbles */}
+          <div
             data-role="label"
             style={{
-              fontSize:      `${Math.round(w.size * 0.35)}px`,
-              fontWeight:    400,
-              fontFamily:    "'Righteous', cursive",
-              color:         `rgb(${w.rgb})`,
               position:      "absolute",
               opacity:       1,
               transition:    "opacity 0.3s",
               userSelect:    "none",
-              letterSpacing: "0.02em",
-              animation:     `plus-one-shimmer ${(2.5 + i * 0.4).toFixed(1)}s ease-in-out infinite`,
             }}
           >
-            +1
-          </span>
+            {"avatarId" in w ? (
+              <PixelAvatar avatarId={(w as { avatarId: number }).avatarId} size={Math.round(w.size * 0.4)} />
+            ) : (
+              <span style={{
+                fontSize:      `${Math.round(w.size * 0.35)}px`,
+                fontWeight:    400,
+                fontFamily:    "'Righteous', cursive",
+                color:         `rgb(${w.rgb})`,
+                letterSpacing: "0.02em",
+                animation:     `plus-one-shimmer ${(2.5 + i * 0.4).toFixed(1)}s ease-in-out infinite`,
+              }}>+1</span>
+            )}
+          </div>
 
           {/* Wish text — revealed on hover */}
           <p
@@ -890,11 +896,6 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         onMouseEnter={() => {
           setCharHovered(true)
           charStoppedRef.current = true
-          // Show input for everyone, except those who already shared
-          const alreadyShared = isConnected && address && localStorage.getItem(`plusone_wish_${address}`)
-          if (!alreadyShared) {
-            setWishInput(true)
-          }
         }}
         onMouseLeave={() => {
           setCharHovered(false)
@@ -907,6 +908,12 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         onClick={() => {
           if (!isConnected) {
             onConnectWallet?.()
+            return
+          }
+          // Click to open wish input (not hover)
+          const alreadyShared = address && localStorage.getItem(`plusone_wish_${address}`)
+          if (!alreadyShared) {
+            setWishInput(true)
           }
         }}
       >
