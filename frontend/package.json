@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@coinbase/onchainkit": "^1.1.2",
     "@tanstack/react-query": "^5.95.2",
