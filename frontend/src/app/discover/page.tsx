@@ -345,16 +345,18 @@ export default function DiscoverPage() {
               setCurrentIdx(0)
             }}
             style={{
-              fontFamily: "'Righteous', cursive", fontSize: "14px",
-              color: "rgba(255,210,80,0.85)", cursor: "pointer",
-              transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-              textShadow: "0 0 8px rgba(255,200,60,0.25)",
-              display: "inline-block",
+              fontFamily: "'Righteous', cursive", fontSize: "10px",
+              color: "rgba(255,210,80,0.7)", cursor: "pointer",
+              transition: "all 0.2s",
+              display: "inline-flex", alignItems: "center", gap: "4px",
+              padding: "4px 10px", borderRadius: "10px",
+              border: "1px solid rgba(255,210,80,0.15)",
+              background: "rgba(255,210,80,0.05)",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.transform = "rotate(180deg) scale(1.2)"; e.currentTarget.style.color = "rgba(255,220,100,1)" }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = "rotate(0deg) scale(1)"; e.currentTarget.style.color = "rgba(255,210,80,0.85)" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,210,80,0.12)"; e.currentTarget.style.color = "rgba(255,220,100,1)" }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,210,80,0.05)"; e.currentTarget.style.color = "rgba(255,210,80,0.7)" }}
           >
-            ↻
+            ↻ shuffle
           </span>
           {/* View toggle */}
           <div style={{ display: "flex", gap: "2px" }}>
