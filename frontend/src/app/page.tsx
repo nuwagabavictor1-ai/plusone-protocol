@@ -229,6 +229,7 @@ export default function HomePage() {
               WebkitTextFillColor:  "transparent",
               lineHeight:    1.5,
               letterSpacing: "0.02em",
+              paddingBottom: "5px",
             }}>
               what if everyone give you 1 usdc?
             </p>
@@ -241,6 +242,7 @@ export default function HomePage() {
               WebkitTextFillColor:  "transparent",
               lineHeight:    1.5,
               letterSpacing: "0.02em",
+              paddingBottom: "5px",
             }}>
               what would you do?
             </p>
