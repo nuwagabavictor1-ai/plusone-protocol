@@ -17,13 +17,13 @@ const STARS = Array.from({ length: 220 }, (_, i) => ({
 // 7 wishes — what to do after collecting 1 USDC from everyone
 // baseSize is the desktop reference; actual size = baseSize * screenScale
 const WISHES = [
-  { baseSize: 130, rgb: "255,148,72",  text: "Give orphan kids\na happy childhood" },
-  { baseSize: 100, rgb: "255,218,55",  text: "Help mountain kids\nsee the world" },
-  { baseSize: 120, rgb: "75,205,118",  text: "Build a shelter\nfor stray animals" },
-  { baseSize: 90,  rgb: "168,120,255", text: "Let indie artists\nkeep creating" },
-  { baseSize: 115, rgb: "78,162,255",  text: "Travel the world\nwith a lonely elder" },
-  { baseSize: 95,  rgb: "95,228,182",  text: "Plant a forest\nin the desert" },
-  { baseSize: 125, rgb: "255,168,210", text: "Fund the next\nworld-changer" },
+  { baseSize: 130, rgb: "255,148,72",  text: "Open a free coding\nschool for kids" },
+  { baseSize: 100, rgb: "255,218,55",  text: "Launch a scholarship\nfor first-gen students" },
+  { baseSize: 120, rgb: "75,205,118",  text: "A documentary about\nforgotten veterans" },
+  { baseSize: 90,  rgb: "168,120,255", text: "Fund 100 hearing aids\nfor children" },
+  { baseSize: 115, rgb: "78,162,255",  text: "A micro-farm that feeds\nthe neighborhood" },
+  { baseSize: 95,  rgb: "95,228,182",  text: "Build a playground\nin a refugee camp" },
+  { baseSize: 125, rgb: "255,168,210", text: "Turn an abandoned building\ninto a community art space" },
 ]
 
 // Responsive: compute bubble scale and visible count from viewport width

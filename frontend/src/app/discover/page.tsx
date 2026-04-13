@@ -14,13 +14,13 @@ import { Logo } from "@/components/Logo"
 
 // Dream pool — starts from the 7 homepage dreams
 const DREAM_POOL = [
-  { address: "0xaaa1", thought: "Give orphan kids a happy childhood", count: 24, name: "Luna" },
-  { address: "0xbbb2", thought: "Help mountain kids see the world", count: 89, name: "Kai" },
-  { address: "0xccc3", thought: "Build a shelter for stray animals", count: 156, name: "Mochi" },
-  { address: "0xddd4", thought: "Let indie artists keep creating", count: 42, name: "River" },
-  { address: "0xeee5", thought: "Travel the world with a lonely elder", count: 7, name: "Sol" },
-  { address: "0xfff6", thought: "Plant a forest in the desert", count: 31, name: "Fern" },
-  { address: "0x1117", thought: "Fund the next world-changer", count: 63, name: "Nova" },
+  { address: "0xaaa1", thought: "Open a free coding school for kids in my village", count: 312, name: "Ada" },
+  { address: "0xbbb2", thought: "Launch a scholarship for first-generation college students", count: 1089, name: "Kai" },
+  { address: "0xccc3", thought: "Create a documentary about forgotten war veterans", count: 456, name: "Orion" },
+  { address: "0xddd4", thought: "Fund 100 hearing aids for children who can't afford them", count: 2741, name: "Mochi" },
+  { address: "0xeee5", thought: "Start a micro-farm that feeds the whole neighborhood", count: 187, name: "Fern" },
+  { address: "0xfff6", thought: "Build a playground in a refugee camp", count: 863, name: "Sol" },
+  { address: "0x1117", thought: "Turn an abandoned building into a community art space", count: 95, name: "Nova" },
 ]
 
 const DREAM_COLORS = [
