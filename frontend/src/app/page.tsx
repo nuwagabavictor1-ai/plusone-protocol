@@ -229,9 +229,8 @@ export default function HomePage() {
               WebkitTextFillColor:  "transparent",
               lineHeight:    1.5,
               letterSpacing: "0.02em",
-              paddingBottom: "5px",
             }}>
-              what if everyone give you 1 usdc?
+              what if everyone give you 1 usdc<span style={{ WebkitTextFillColor: "rgba(200,230,255,0.95)" }}>?</span>
             </p>
             <p style={{
               fontFamily:    "'Caveat', cursive",
@@ -242,9 +241,8 @@ export default function HomePage() {
               WebkitTextFillColor:  "transparent",
               lineHeight:    1.5,
               letterSpacing: "0.02em",
-              paddingBottom: "5px",
             }}>
-              what would you do?
+              what would you do<span style={{ WebkitTextFillColor: "rgba(255,220,200,0.95)" }}>?</span>
             </p>
           </div>
 
