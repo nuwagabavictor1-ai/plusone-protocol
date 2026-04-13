@@ -227,8 +227,9 @@ export default function HomePage() {
               background:    "linear-gradient(135deg, rgba(220,200,255,0.95) 0%, rgba(170,230,255,1) 50%, rgba(200,255,230,0.95) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor:  "transparent",
-              lineHeight:    1.5,
+              lineHeight:    1.6,
               letterSpacing: "0.02em",
+              paddingBottom: "4px",
             }}>
               what if everyone give you 1 usdc?
             </p>
