@@ -401,45 +401,35 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         }
       }
 
-      // Exclude zone — bounce off the central content area (door + text)
-      if (excludeRef?.current) {
-        const rect = excludeRef.current.getBoundingClientRect()
-        const zPad = 10
-        const zLeft   = rect.left - zPad
-        const zRight  = rect.right + zPad
-        const zTop    = rect.top - zPad
-        const zBottom = rect.bottom + zPad
-
-        for (const b of balls) {
-          const closestX = Math.max(zLeft, Math.min(b.x, zRight))
-          const closestY = Math.max(zTop, Math.min(b.y, zBottom))
-          const dx = b.x - closestX
-          const dy = b.y - closestY
-          const distSq = dx * dx + dy * dy
-          const pushR = b.r + 5
-
-          if (distSq < pushR * pushR) {
-            const dist = Math.sqrt(distSq) || 0.1
-            const nx = dx / dist || (Math.random() - 0.5)
-            const ny = dy / dist || (Math.random() - 0.5)
-            // Gentle velocity push — not hard position snap
-            b.vx += nx * 0.15
-            b.vy += ny * 0.15
-          }
-        }
-      }
-
-      // Bottom center exclude — three gods + dream pool + möbius area
+      // ── Center column exclude — keeps bubbles away from all center content ──
+      // Single unified zone: covers center 36% width, from 20% to 100% height
+      // This protects: title, text, door, möbius, pools, gods
       const bW = typeof window !== "undefined" ? window.innerWidth : 800
       const bH = typeof window !== "undefined" ? window.innerHeight : 600
-      const godLeft = bW * 0.3, godRight = bW * 0.7, godTop = bH * 0.75
+      const centerLeft = bW * 0.35
+      const centerRight = bW * 0.65
+      const centerTop = bH * 0.2
+
       for (const b of balls) {
-        if (b.x > godLeft - b.r && b.x < godRight + b.r && b.y > godTop - b.r) {
-          const cx = bW * 0.5, cy = godTop
-          const dx = b.x - cx, dy = b.y - cy
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1
-          b.vx += (dx / dist) * 0.12
-          b.vy -= 0.15 // push upward
+        // Check if bubble center is inside the protected column
+        if (b.x + b.r > centerLeft && b.x - b.r < centerRight && b.y + b.r > centerTop) {
+          // Push left or right depending on which side is closer
+          const midX = (centerLeft + centerRight) / 2
+          if (b.x < midX) {
+            // Push left
+            b.vx -= 0.3
+            if (b.x + b.r > centerLeft) {
+              b.x = centerLeft - b.r - 2
+              b.vx = -Math.abs(b.vx) - 0.1
+            }
+          } else {
+            // Push right
+            b.vx += 0.3
+            if (b.x - b.r < centerRight) {
+              b.x = centerRight + b.r + 2
+              b.vx = Math.abs(b.vx) + 0.1
+            }
+          }
         }
       }
 
