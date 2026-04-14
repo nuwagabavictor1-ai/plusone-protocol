@@ -947,12 +947,11 @@ body {
 
   /* Discover: compact layout for mobile */
   .discover-main {
-    justify-content: flex-start !important;
-    padding-top: 80px !important;
+    justify-content: center !important;
+    padding-top: 60px !important;
   }
   .discover-viewport {
     min-height: auto !important;
-    align-items: flex-start !important;
   }
   .discover-fullcard {
     padding: 10px 16px !important;

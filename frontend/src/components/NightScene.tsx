@@ -157,20 +157,49 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
           if (fly.y <= pad)         { fly.y = pad; fly.vy = Math.abs(fly.vy) * (0.8 + Math.random() * 0.4) }
           if (fly.y >= H() - pad)   { fly.y = H() - pad; fly.vy = -Math.abs(fly.vy) * (0.8 + Math.random() * 0.4) }
 
-          // Avoid wallet sprite (top-right) and door (center)
+          // Avoid zones — push character away from restricted areas
           const w = W(), h = H()
-          // Wallet sprite zone: right 15%, top 12%
-          if (fly.x > w * 0.82 && fly.y < h * 0.12) {
-            fly.vx -= 0.15
+
+          // Logo zone: left 15%, top 10%
+          if (fly.x < w * 0.15 && fly.y < h * 0.10) {
+            fly.vx += 0.2
             fly.vy += 0.15
           }
-          // Door / center content zone: middle 30%, vertical 35%-65%
-          if (fly.x > w * 0.35 && fly.x < w * 0.65 && fly.y > h * 0.35 && fly.y < h * 0.65) {
+          // +1 USDC title zone: center 40%, top 25%
+          if (fly.x > w * 0.30 && fly.x < w * 0.70 && fly.y < h * 0.25) {
+            fly.vy += 0.2
+          }
+          // Wallet sprite zone: right 18%, top 15%
+          if (fly.x > w * 0.82 && fly.y < h * 0.15) {
+            fly.vx -= 0.2
+            fly.vy += 0.15
+          }
+          // Door / center content zone: middle 30%, vertical 30%-65%
+          if (fly.x > w * 0.35 && fly.x < w * 0.65 && fly.y > h * 0.30 && fly.y < h * 0.65) {
             const cx = w * 0.5, cy = h * 0.5
             const dx = fly.x - cx, dy = fly.y - cy
             const dist = Math.sqrt(dx * dx + dy * dy) || 1
-            fly.vx += (dx / dist) * 0.1
-            fly.vy += (dy / dist) * 0.1
+            fly.vx += (dx / dist) * 0.15
+            fly.vy += (dy / dist) * 0.15
+          }
+          // Gods / pools bottom zone: center 40%, bottom 25%
+          if (fly.x > w * 0.30 && fly.x < w * 0.70 && fly.y > h * 0.75) {
+            fly.vy -= 0.2
+          }
+          // Avoid bubbles — push away from each bubble center
+          for (const bEl of bubbleRefs.current) {
+            if (!bEl) continue
+            const rect = bEl.getBoundingClientRect()
+            const bx = rect.left + rect.width / 2
+            const by = rect.top + rect.height / 2
+            const br = rect.width / 2 + 20
+            const dx = fly.x - bx, dy = fly.y - by
+            const dist = Math.sqrt(dx * dx + dy * dy)
+            if (dist < br) {
+              const nx = dx / (dist || 1), ny = dy / (dist || 1)
+              fly.vx += nx * 0.2
+              fly.vy += ny * 0.2
+            }
           }
 
           // Gentle random drift to keep it interesting
