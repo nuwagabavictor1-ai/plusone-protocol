@@ -577,7 +577,7 @@ export default function DiscoverPage() {
               {/* Fee info */}
               <div style={{ padding: "6px 4px 2px", textAlign: "center" }}>
                 <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>
-                  $1 → dreamer · $0.20 → merit (weekly raffle)
+                  $1 to dreamer · $0.20 to Merit Pool (weekly raffle)
                 </span>
               </div>
             </div>
