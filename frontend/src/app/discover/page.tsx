@@ -475,7 +475,7 @@ export default function DiscoverPage() {
                   </span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1.20</span>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1</span>
                   <select
                     value={sendChain}
                     onChange={e => setSendChain(Number(e.target.value))}
@@ -571,13 +571,14 @@ export default function DiscoverPage() {
                   letterSpacing: "0.04em",
                 }}
               >
-                {!isConnected ? "Connect Wallet" : sendStatus === "switching" ? "Switching Chain..." : sendStatus === "sending" ? "Sending +1..." : !sendAddr ? "Enter address" : "Send +1"}
+                {!isConnected ? "Connect Wallet" : sendStatus === "switching" ? "Switching Chain..." : sendStatus === "sending" ? "Sending +1..." : !sendAddr ? "Enter address" : "Send +1 · $1 USDC"}
               </button>
 
               {/* Fee info */}
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 4px 4px" }}>
-                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>$1 → dreamer</span>
-                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>$0.20 → Merit Pool</span>
+              <div style={{ padding: "6px 4px 2px", textAlign: "center" }}>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>
+                  $1 → dreamer · $0.20 → merit (weekly raffle)
+                </span>
               </div>
             </div>
 
@@ -897,10 +898,11 @@ export default function DiscoverPage() {
         </>}
 
         {/* Merit Box + coin drop animation */}
-        {/* 功德箱 — always visible at bottom center */}
+        {/* 功德箱 — visible in swipe view only */}
         <div style={{
           position: "fixed", bottom: "80px", left: "50%", transform: "translateX(-50%)",
-          display: "flex", flexDirection: "column", alignItems: "center",
+          display: viewMode === "list" ? "none" : "flex",
+          flexDirection: "column", alignItems: "center",
           zIndex: 20, pointerEvents: "none",
         }}>
           <svg width="64" height="64" viewBox="0 0 12 12" style={{ imageRendering: "pixelated", display: "block" }}>
