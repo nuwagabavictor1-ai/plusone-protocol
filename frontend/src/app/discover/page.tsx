@@ -449,104 +449,134 @@ export default function DiscoverPage() {
         {viewMode === "list" && (
           <div className="discover-list">
 
-            {/* ── Transfer Panel ── */}
+            {/* ── Transfer Panel (Uniswap-style) ── */}
             <div style={{
               marginBottom: "20px",
-              padding: "16px",
-              borderRadius: "14px",
-              border: "1px solid rgba(255,220,180,0.1)",
-              background: "rgba(255,220,180,0.03)",
+              padding: "4px",
+              borderRadius: "20px",
+              background: "rgba(15,20,40,0.6)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.06)",
             }}>
-              <p style={{
-                fontFamily: "'Righteous', cursive", fontSize: "11px",
-                color: "rgba(255,220,180,0.7)", letterSpacing: "0.06em",
-                marginBottom: "10px",
+              {/* From: You send */}
+              <div style={{
+                padding: "14px 16px",
+                borderRadius: "16px",
+                background: "rgba(255,255,255,0.04)",
+                marginBottom: "2px",
               }}>
-                Send +1 to anyone
-              </p>
-              <input
-                type="text"
-                value={sendAddr}
-                onChange={e => setSendAddr(e.target.value.trim())}
-                placeholder="Paste wallet address (0x...)"
-                style={{
-                  width: "100%", padding: "8px 12px", borderRadius: "8px",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  background: "rgba(255,255,255,0.05)",
-                  color: "rgba(255,255,255,0.9)", fontFamily: "var(--font-mono)",
-                  fontSize: "11px", outline: "none",
-                  marginBottom: "10px",
-                }}
-              />
-              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                <select
-                  value={sendChain}
-                  onChange={e => setSendChain(Number(e.target.value))}
-                  style={{
-                    padding: "6px 10px", borderRadius: "8px",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    background: "rgba(255,255,255,0.05)",
-                    color: "rgba(255,220,180,0.8)", fontFamily: "'Righteous', cursive",
-                    fontSize: "9px", outline: "none", cursor: "pointer",
-                    flex: 1,
-                  }}
-                >
-                  <option value={84532} style={{ background: "#1a1a2e" }}>Base Sepolia</option>
-                  <option value={97} style={{ background: "#1a1a2e" }}>BSC Testnet</option>
-                  <option value={8453} style={{ background: "#1a1a2e" }}>Base</option>
-                  <option value={56} style={{ background: "#1a1a2e" }}>BNB Chain</option>
-                </select>
-                <button
-                  onClick={async () => {
-                    if (!isConnected) { setWalletModal(true); return }
-                    if (!sendAddr.match(/^0x[a-fA-F0-9]{40}$/)) {
-                      setTxStatus("failed"); setTimeout(() => setTxStatus(""), 3000); return
-                    }
-                    if (usdcBalanceUsd < 1.2) {
-                      setTxStatus("insufficient"); setTimeout(() => setTxStatus(""), 4000); return
-                    }
-                    // Switch chain if needed
-                    if (currentChainId !== sendChain) {
-                      setSendStatus("switching")
-                      try { switchChain({ chainId: sendChain }) } catch { setSendStatus("failed"); return }
-                    }
-                    setSendStatus("sending")
-                    const hasEnough = allowance != null && allowance >= GIVE_COST
-                    if (!hasEnough) {
-                      pendingGiveRef.current = sendAddr
-                      approve({
-                        address: usdcAddress, abi: ERC20_ABI, functionName: "approve",
-                        args: [plusOneAddress, BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")],
-                        chainId: sendChain,
-                      })
-                    } else {
-                      give({
-                        address: plusOneAddress, abi: PLUS_ONE_ABI, functionName: "give",
-                        args: [sendAddr as `0x${string}`], chainId: sendChain,
-                      })
-                    }
-                    setTxStatus("pending")
-                  }}
-                  disabled={sendStatus === "sending" || sendStatus === "switching"}
-                  style={{
-                    padding: "6px 16px", borderRadius: "8px",
-                    border: "1px solid rgba(255,220,180,0.3)",
-                    background: "rgba(255,220,180,0.08)",
-                    color: "rgba(255,220,180,0.9)", fontFamily: "'Righteous', cursive",
-                    fontSize: "10px", cursor: "pointer", whiteSpace: "nowrap",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  {sendStatus === "switching" ? "Switching..." : sendStatus === "sending" ? "Sending..." : "Send +1 →"}
-                </button>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)" }}>You send</span>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)" }}>
+                    Balance: ${usdcBalanceUsd.toFixed(2)}
+                  </span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "24px", color: "rgba(255,255,255,0.9)" }}>1.20</span>
+                  <select
+                    value={sendChain}
+                    onChange={e => setSendChain(Number(e.target.value))}
+                    style={{
+                      padding: "6px 12px", borderRadius: "16px",
+                      border: "none",
+                      background: "rgba(255,255,255,0.08)",
+                      color: "rgba(255,255,255,0.85)", fontFamily: "'Righteous', cursive",
+                      fontSize: "11px", outline: "none", cursor: "pointer",
+                    }}
+                  >
+                    <option value={84532} style={{ background: "#1a1a2e" }}>USDC · Base Sepolia</option>
+                    <option value={97} style={{ background: "#1a1a2e" }}>USDC · BSC Testnet</option>
+                    <option value={8453} style={{ background: "#1a1a2e" }}>USDC · Base</option>
+                    <option value={56} style={{ background: "#1a1a2e" }}>USDC · BNB Chain</option>
+                  </select>
+                </div>
               </div>
-              <p style={{
-                fontFamily: "'Righteous', cursive", fontSize: "8px",
-                color: "rgba(255,255,255,0.25)", marginTop: "8px",
-                letterSpacing: "0.04em",
+
+              {/* Arrow divider */}
+              <div style={{ display: "flex", justifyContent: "center", margin: "-10px 0", position: "relative", zIndex: 2 }}>
+                <div style={{
+                  width: "32px", height: "32px", borderRadius: "8px",
+                  background: "rgba(15,20,40,0.9)",
+                  border: "3px solid rgba(15,20,40,0.6)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "14px", color: "rgba(255,255,255,0.5)",
+                }}>↓</div>
+              </div>
+
+              {/* To: Recipient */}
+              <div style={{
+                padding: "14px 16px",
+                borderRadius: "16px",
+                background: "rgba(255,255,255,0.04)",
               }}>
-                $1.20 USDC ($1 to dreamer + $0.20 to Merit Pool)
-              </p>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: "8px" }}>To</span>
+                <input
+                  type="text"
+                  value={sendAddr}
+                  onChange={e => setSendAddr(e.target.value.trim())}
+                  placeholder="0x... wallet address"
+                  style={{
+                    width: "100%", padding: "0", border: "none",
+                    background: "transparent",
+                    color: sendAddr ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "14px", outline: "none",
+                  }}
+                />
+              </div>
+
+              {/* Send button */}
+              <button
+                onClick={async () => {
+                  if (!isConnected) { setWalletModal(true); return }
+                  if (!sendAddr.match(/^0x[a-fA-F0-9]{40}$/)) {
+                    setTxStatus("failed"); setTimeout(() => setTxStatus(""), 3000); return
+                  }
+                  if (usdcBalanceUsd < 1.2) {
+                    setTxStatus("insufficient"); setTimeout(() => setTxStatus(""), 4000); return
+                  }
+                  if (currentChainId !== sendChain) {
+                    setSendStatus("switching")
+                    try { switchChain({ chainId: sendChain }) } catch { setSendStatus("failed"); return }
+                  }
+                  setSendStatus("sending")
+                  const hasEnough = allowance != null && allowance >= GIVE_COST
+                  if (!hasEnough) {
+                    pendingGiveRef.current = sendAddr
+                    approve({
+                      address: usdcAddress, abi: ERC20_ABI, functionName: "approve",
+                      args: [plusOneAddress, BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")],
+                      chainId: sendChain,
+                    })
+                  } else {
+                    give({
+                      address: plusOneAddress, abi: PLUS_ONE_ABI, functionName: "give",
+                      args: [sendAddr as `0x${string}`], chainId: sendChain,
+                    })
+                  }
+                  setTxStatus("pending")
+                }}
+                disabled={sendStatus === "sending" || sendStatus === "switching"}
+                style={{
+                  width: "100%", padding: "14px", marginTop: "4px",
+                  borderRadius: "16px", border: "none",
+                  background: !sendAddr ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg, rgba(255,210,80,0.25), rgba(100,255,150,0.2))",
+                  color: !sendAddr ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.9)",
+                  fontFamily: "'Righteous', cursive", fontSize: "14px",
+                  cursor: sendAddr ? "pointer" : "default",
+                  transition: "all 0.2s",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {!isConnected ? "Connect Wallet" : sendStatus === "switching" ? "Switching Chain..." : sendStatus === "sending" ? "Sending +1..." : !sendAddr ? "Enter address" : "Send +1"}
+              </button>
+
+              {/* Fee info */}
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 4px 4px" }}>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>$1 → dreamer</span>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>$0.20 → Merit Pool</span>
+              </div>
             </div>
 
             {/* Sort tabs */}
