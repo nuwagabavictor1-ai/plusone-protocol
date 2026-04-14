@@ -581,7 +581,7 @@ export default function DiscoverPage() {
                 <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>
                   $1 to dreamer · $0.20 to Merit Pool (weekly raffle)
                 </span>
-                <svg width="22" height="22" viewBox="0 0 12 12" style={{ imageRendering: "pixelated", flexShrink: 0 }}>
+                <svg width="22" height="22" viewBox="0 0 12 12" onClick={() => router.push("/pool")} style={{ imageRendering: "pixelated", flexShrink: 0, cursor: "pointer" }}>
                   <rect x="1" y="2" width="10" height="1" fill="#aa3333"/>
                   <rect x="2" y="1" width="8" height="1" fill="#cc4444"/>
                   <rect x="4" y="1" width="4" height="1" fill="#4a2020"/>
