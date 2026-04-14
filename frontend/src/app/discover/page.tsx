@@ -48,7 +48,18 @@ export default function DiscoverPage() {
   const [showTransferPrompt, setShowTransferPrompt] = useState(false)
   const [showCoinDrop, setShowCoinDrop] = useState(false)
   const [walletModal, setWalletModal] = useState(false)
-  const [viewMode, setViewMode] = useState<"swipe" | "list">("swipe")
+  const [viewMode, setViewModeState] = useState<"swipe" | "list">("swipe")
+  // Restore view mode from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("view") === "dreams") setViewModeState("list")
+  }, [])
+  const setViewMode = (mode: "swipe" | "list") => {
+    setViewModeState(mode)
+    const url = new URL(window.location.href)
+    url.searchParams.set("view", mode === "list" ? "dreams" : "explore")
+    window.history.replaceState({}, "", url.toString())
+  }
   const [sortMode, setSortMode] = useState<"Hot" | "New" | "Liked">("Hot")
 
   // Transfer panel state
