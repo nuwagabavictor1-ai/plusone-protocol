@@ -450,7 +450,7 @@ export default function DiscoverPage() {
           <div className="discover-list">
 
             {/* ── Transfer Panel (Uniswap-style) ── */}
-            <div style={{
+            <div className="transfer-panel" style={{
               marginBottom: "16px",
               padding: "3px",
               borderRadius: "16px",
