@@ -947,6 +947,9 @@ body {
   }
 
   /* Discover: compact layout for mobile */
+  .discover-topbar {
+    top: 70px !important;
+  }
   .discover-main {
     justify-content: center !important;
     padding-top: 60px !important;

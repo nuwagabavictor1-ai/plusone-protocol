@@ -330,7 +330,7 @@ export default function DiscoverPage() {
         <Logo />
 
         {/* Top bar — counter + view toggle */}
-        <div style={{
+        <div className="discover-topbar" style={{
           position: "fixed", top: "36px", left: "50%", transform: "translateX(-50%)",
           display: "flex", alignItems: "center", gap: "16px", zIndex: 10,
         }}>

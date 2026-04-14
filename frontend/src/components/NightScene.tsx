@@ -157,48 +157,55 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
           if (fly.y <= pad)         { fly.y = pad; fly.vy = Math.abs(fly.vy) * (0.8 + Math.random() * 0.4) }
           if (fly.y >= H() - pad)   { fly.y = H() - pad; fly.vy = -Math.abs(fly.vy) * (0.8 + Math.random() * 0.4) }
 
-          // Avoid zones — push character away from restricted areas
+          // Avoid zones — HARD bounce off restricted areas
           const w = W(), h = H()
+          const push = 0.5 // strong push force
 
-          // Logo zone: left 15%, top 10%
-          if (fly.x < w * 0.15 && fly.y < h * 0.10) {
-            fly.vx += 0.2
-            fly.vy += 0.15
+          // Logo zone: left 18%, top 12%
+          if (fly.x < w * 0.18 && fly.y < h * 0.12) {
+            fly.x = w * 0.18
+            fly.vx = Math.abs(fly.vx) + push
+            fly.vy = Math.abs(fly.vy) + push * 0.5
           }
-          // +1 USDC title zone: center 40%, top 25%
-          if (fly.x > w * 0.30 && fly.x < w * 0.70 && fly.y < h * 0.25) {
-            fly.vy += 0.2
+          // +1 USDC title + what-if zone: center 50%, top 30%
+          if (fly.x > w * 0.25 && fly.x < w * 0.75 && fly.y < h * 0.30) {
+            fly.y = h * 0.30
+            fly.vy = Math.abs(fly.vy) + push
           }
-          // Wallet sprite zone: right 18%, top 15%
-          if (fly.x > w * 0.82 && fly.y < h * 0.15) {
-            fly.vx -= 0.2
-            fly.vy += 0.15
+          // Wallet sprite zone: right 20%, top 15%
+          if (fly.x > w * 0.80 && fly.y < h * 0.15) {
+            fly.x = w * 0.80
+            fly.vx = -(Math.abs(fly.vx) + push)
+            fly.vy = Math.abs(fly.vy) + push * 0.5
           }
           // Door / center content zone: middle 30%, vertical 30%-65%
           if (fly.x > w * 0.35 && fly.x < w * 0.65 && fly.y > h * 0.30 && fly.y < h * 0.65) {
-            const cx = w * 0.5, cy = h * 0.5
+            const cx = w * 0.5, cy = h * 0.475
             const dx = fly.x - cx, dy = fly.y - cy
             const dist = Math.sqrt(dx * dx + dy * dy) || 1
-            fly.vx += (dx / dist) * 0.15
-            fly.vy += (dy / dist) * 0.15
+            fly.vx += (dx / dist) * push
+            fly.vy += (dy / dist) * push
           }
-          // Gods / pools bottom zone: center 40%, bottom 25%
-          if (fly.x > w * 0.30 && fly.x < w * 0.70 && fly.y > h * 0.75) {
-            fly.vy -= 0.2
+          // Gods / pools bottom zone: center 50%, bottom 25%
+          if (fly.x > w * 0.25 && fly.x < w * 0.75 && fly.y > h * 0.75) {
+            fly.y = h * 0.75
+            fly.vy = -(Math.abs(fly.vy) + push)
           }
-          // Avoid bubbles — push away from each bubble center
+          // Avoid bubbles — hard bounce off each bubble
           for (const bEl of bubbleRefs.current) {
             if (!bEl) continue
             const rect = bEl.getBoundingClientRect()
             const bx = rect.left + rect.width / 2
             const by = rect.top + rect.height / 2
-            const br = rect.width / 2 + 20
+            const br = rect.width / 2 + 25
             const dx = fly.x - bx, dy = fly.y - by
             const dist = Math.sqrt(dx * dx + dy * dy)
-            if (dist < br) {
-              const nx = dx / (dist || 1), ny = dy / (dist || 1)
-              fly.vx += nx * 0.2
-              fly.vy += ny * 0.2
+            if (dist < br && dist > 0) {
+              const nx = dx / dist, ny = dy / dist
+              fly.x = bx + nx * br
+              fly.y = by + ny * br
+              fly.vx = nx * 0.6
+              fly.vy = ny * 0.6
             }
           }
 
