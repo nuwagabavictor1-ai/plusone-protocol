@@ -397,7 +397,7 @@ export default function AboutPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    minWidth: "90px",
+                    minWidth: "110px",
                   }}>
                     {"isAvatarGrid" in char && char.isAvatarGrid ? (
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "4px", width: "84px" }}>
