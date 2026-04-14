@@ -487,21 +487,29 @@ export default function DiscoverPage() {
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1</span>
+                  <span style={{
+                    padding: "6px 12px", borderRadius: "16px",
+                    background: "rgba(255,255,255,0.08)",
+                    fontFamily: "'Righteous', cursive", fontSize: "12px",
+                    color: "rgba(255,255,255,0.85)",
+                  }}>USDC</span>
+                </div>
+                <div style={{ marginTop: "8px" }}>
                   <select
                     value={sendChain}
                     onChange={e => setSendChain(Number(e.target.value))}
                     style={{
-                      padding: "6px 12px", borderRadius: "16px",
+                      width: "100%", padding: "5px 10px", borderRadius: "10px",
                       border: "none",
-                      background: "rgba(255,255,255,0.08)",
-                      color: "rgba(255,255,255,0.85)", fontFamily: "'Righteous', cursive",
-                      fontSize: "11px", outline: "none", cursor: "pointer",
+                      background: "rgba(255,255,255,0.06)",
+                      color: "rgba(255,255,255,0.6)", fontFamily: "'Righteous', cursive",
+                      fontSize: "9px", outline: "none", cursor: "pointer",
                     }}
                   >
-                    <option value={84532} style={{ background: "#1a1a2e" }}>USDC · Base Sepolia</option>
-                    <option value={97} style={{ background: "#1a1a2e" }}>USDC · BSC Testnet</option>
-                    <option value={8453} style={{ background: "#1a1a2e" }}>USDC · Base</option>
-                    <option value={56} style={{ background: "#1a1a2e" }}>USDC · BNB Chain</option>
+                    <option value={84532} style={{ background: "#1a1a2e" }}>Base Sepolia</option>
+                    <option value={97} style={{ background: "#1a1a2e" }}>BSC Testnet</option>
+                    <option value={8453} style={{ background: "#1a1a2e" }}>Base</option>
+                    <option value={56} style={{ background: "#1a1a2e" }}>BNB Chain</option>
                   </select>
                 </div>
               </div>
