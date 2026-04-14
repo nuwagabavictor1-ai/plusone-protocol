@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from "wagmi"
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useSwitchChain, useChainId } from "wagmi"
 import { useRouter } from "next/navigation"
 import { PLUS_ONE_ABI, ERC20_ABI, GIVE_COST } from "@/lib/contracts"
 import { useChainContracts } from "@/lib/useChainContracts"
@@ -50,6 +50,13 @@ export default function DiscoverPage() {
   const [walletModal, setWalletModal] = useState(false)
   const [viewMode, setViewMode] = useState<"swipe" | "list">("swipe")
   const [sortMode, setSortMode] = useState<"Hot" | "New" | "Liked">("Hot")
+
+  // Transfer panel state
+  const [sendAddr, setSendAddr] = useState("")
+  const [sendChain, setSendChain] = useState<number>(chainId)
+  const [sendStatus, setSendStatus] = useState<"" | "switching" | "approving" | "sending" | "success" | "failed">("")
+  const { switchChain } = useSwitchChain()
+  const currentChainId = useChainId()
   const touchStartY = useRef(0)
 
   // Contract hooks
@@ -441,6 +448,107 @@ export default function DiscoverPage() {
         {/* ====== LIST VIEW ====== */}
         {viewMode === "list" && (
           <div className="discover-list">
+
+            {/* ── Transfer Panel ── */}
+            <div style={{
+              marginBottom: "20px",
+              padding: "16px",
+              borderRadius: "14px",
+              border: "1px solid rgba(255,220,180,0.1)",
+              background: "rgba(255,220,180,0.03)",
+            }}>
+              <p style={{
+                fontFamily: "'Righteous', cursive", fontSize: "11px",
+                color: "rgba(255,220,180,0.7)", letterSpacing: "0.06em",
+                marginBottom: "10px",
+              }}>
+                Send +1 to anyone
+              </p>
+              <input
+                type="text"
+                value={sendAddr}
+                onChange={e => setSendAddr(e.target.value.trim())}
+                placeholder="Paste wallet address (0x...)"
+                style={{
+                  width: "100%", padding: "8px 12px", borderRadius: "8px",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: "rgba(255,255,255,0.05)",
+                  color: "rgba(255,255,255,0.9)", fontFamily: "var(--font-mono)",
+                  fontSize: "11px", outline: "none",
+                  marginBottom: "10px",
+                }}
+              />
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                <select
+                  value={sendChain}
+                  onChange={e => setSendChain(Number(e.target.value))}
+                  style={{
+                    padding: "6px 10px", borderRadius: "8px",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.05)",
+                    color: "rgba(255,220,180,0.8)", fontFamily: "'Righteous', cursive",
+                    fontSize: "9px", outline: "none", cursor: "pointer",
+                    flex: 1,
+                  }}
+                >
+                  <option value={84532} style={{ background: "#1a1a2e" }}>Base Sepolia</option>
+                  <option value={97} style={{ background: "#1a1a2e" }}>BSC Testnet</option>
+                  <option value={8453} style={{ background: "#1a1a2e" }}>Base</option>
+                  <option value={56} style={{ background: "#1a1a2e" }}>BNB Chain</option>
+                </select>
+                <button
+                  onClick={async () => {
+                    if (!isConnected) { setWalletModal(true); return }
+                    if (!sendAddr.match(/^0x[a-fA-F0-9]{40}$/)) {
+                      setTxStatus("failed"); setTimeout(() => setTxStatus(""), 3000); return
+                    }
+                    if (usdcBalanceUsd < 1.2) {
+                      setTxStatus("insufficient"); setTimeout(() => setTxStatus(""), 4000); return
+                    }
+                    // Switch chain if needed
+                    if (currentChainId !== sendChain) {
+                      setSendStatus("switching")
+                      try { switchChain({ chainId: sendChain }) } catch { setSendStatus("failed"); return }
+                    }
+                    setSendStatus("sending")
+                    const hasEnough = allowance != null && allowance >= GIVE_COST
+                    if (!hasEnough) {
+                      pendingGiveRef.current = sendAddr
+                      approve({
+                        address: usdcAddress, abi: ERC20_ABI, functionName: "approve",
+                        args: [plusOneAddress, BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")],
+                        chainId: sendChain,
+                      })
+                    } else {
+                      give({
+                        address: plusOneAddress, abi: PLUS_ONE_ABI, functionName: "give",
+                        args: [sendAddr as `0x${string}`], chainId: sendChain,
+                      })
+                    }
+                    setTxStatus("pending")
+                  }}
+                  disabled={sendStatus === "sending" || sendStatus === "switching"}
+                  style={{
+                    padding: "6px 16px", borderRadius: "8px",
+                    border: "1px solid rgba(255,220,180,0.3)",
+                    background: "rgba(255,220,180,0.08)",
+                    color: "rgba(255,220,180,0.9)", fontFamily: "'Righteous', cursive",
+                    fontSize: "10px", cursor: "pointer", whiteSpace: "nowrap",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {sendStatus === "switching" ? "Switching..." : sendStatus === "sending" ? "Sending..." : "Send +1 →"}
+                </button>
+              </div>
+              <p style={{
+                fontFamily: "'Righteous', cursive", fontSize: "8px",
+                color: "rgba(255,255,255,0.25)", marginTop: "8px",
+                letterSpacing: "0.04em",
+              }}>
+                $1.20 USDC ($1 to dreamer + $0.20 to Merit Pool)
+              </p>
+            </div>
+
             {/* Sort tabs */}
             <div style={{ display: "flex", gap: "12px", marginBottom: "16px", justifyContent: "center" }}>
               {(["Hot", "New", "Liked"] as const).map(tab => (
