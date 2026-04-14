@@ -846,7 +846,7 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
             }}
           >
             {"avatarId" in w ? (
-              <PixelAvatar avatarId={(w as { avatarId: number }).avatarId} size={Math.round(w.size * 0.22)} />
+              <PixelAvatar avatarId={(w as { avatarId: number }).avatarId} size={Math.round(w.size * 0.15)} />
             ) : (
               <span style={{
                 fontSize:      `${Math.round(w.size * 0.35)}px`,

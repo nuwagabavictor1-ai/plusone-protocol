@@ -451,18 +451,20 @@ export default function DiscoverPage() {
 
             {/* ── Transfer Panel (Uniswap-style) ── */}
             <div style={{
-              marginBottom: "20px",
-              padding: "4px",
-              borderRadius: "20px",
+              marginBottom: "16px",
+              padding: "3px",
+              borderRadius: "16px",
               background: "rgba(15,20,40,0.6)",
               backdropFilter: "blur(12px)",
               WebkitBackdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.06)",
+              maxWidth: "380px",
+              margin: "0 auto 16px",
             }}>
               {/* From: You send */}
               <div style={{
-                padding: "14px 16px",
-                borderRadius: "16px",
+                padding: "10px 14px",
+                borderRadius: "13px",
                 background: "rgba(255,255,255,0.04)",
                 marginBottom: "2px",
               }}>
@@ -473,7 +475,7 @@ export default function DiscoverPage() {
                   </span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "24px", color: "rgba(255,255,255,0.9)" }}>1.20</span>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1.20</span>
                   <select
                     value={sendChain}
                     onChange={e => setSendChain(Number(e.target.value))}
@@ -494,20 +496,20 @@ export default function DiscoverPage() {
               </div>
 
               {/* Arrow divider */}
-              <div style={{ display: "flex", justifyContent: "center", margin: "-10px 0", position: "relative", zIndex: 2 }}>
+              <div style={{ display: "flex", justifyContent: "center", margin: "-8px 0", position: "relative", zIndex: 2 }}>
                 <div style={{
-                  width: "32px", height: "32px", borderRadius: "8px",
+                  width: "26px", height: "26px", borderRadius: "6px",
                   background: "rgba(15,20,40,0.9)",
                   border: "3px solid rgba(15,20,40,0.6)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "14px", color: "rgba(255,255,255,0.5)",
+                  fontSize: "11px", color: "rgba(255,255,255,0.5)",
                 }}>↓</div>
               </div>
 
               {/* To: Recipient */}
               <div style={{
-                padding: "14px 16px",
-                borderRadius: "16px",
+                padding: "10px 14px",
+                borderRadius: "13px",
                 background: "rgba(255,255,255,0.04)",
               }}>
                 <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: "8px" }}>To</span>
@@ -521,7 +523,7 @@ export default function DiscoverPage() {
                     background: "transparent",
                     color: sendAddr ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
                     fontFamily: "var(--font-mono)",
-                    fontSize: "14px", outline: "none",
+                    fontSize: "11px", outline: "none",
                   }}
                 />
               </div>
@@ -559,11 +561,11 @@ export default function DiscoverPage() {
                 }}
                 disabled={sendStatus === "sending" || sendStatus === "switching"}
                 style={{
-                  width: "100%", padding: "14px", marginTop: "4px",
-                  borderRadius: "16px", border: "none",
+                  width: "100%", padding: "10px", marginTop: "3px",
+                  borderRadius: "13px", border: "none",
                   background: !sendAddr ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg, rgba(255,210,80,0.25), rgba(100,255,150,0.2))",
                   color: !sendAddr ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.9)",
-                  fontFamily: "'Righteous', cursive", fontSize: "14px",
+                  fontFamily: "'Righteous', cursive", fontSize: "12px",
                   cursor: sendAddr ? "pointer" : "default",
                   transition: "all 0.2s",
                   letterSpacing: "0.04em",
