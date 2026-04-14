@@ -688,8 +688,8 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
       {/* ── Wallet Sprite — click to connect any Web3 wallet ── */}
       <div
         onClick={() => {
-          if (isConnected) {
-            disconnect()
+          if (isConnected && address) {
+            window.location.href = `/${address}`
           } else {
             onConnectWallet?.()
           }
