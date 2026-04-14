@@ -521,7 +521,7 @@ export default function DiscoverPage() {
                   background: "rgba(15,20,40,0.9)",
                   border: "3px solid rgba(15,20,40,0.6)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "11px", color: "rgba(255,255,255,0.5)",
+                  fontSize: "14px", fontWeight: 900, color: "rgba(255,255,255,0.8)",
                 }}>↓</div>
               </div>
 
