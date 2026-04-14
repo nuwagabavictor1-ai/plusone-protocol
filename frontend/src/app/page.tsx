@@ -337,7 +337,7 @@ export default function HomePage() {
 
           {/* ── Bottom: Möbius + Gods + Pools ── */}
             {/* Bottom section — clean layout */}
-            <div className="home-bottom-section" style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%) scale(0.67)", transformOrigin: "center bottom", display: "flex", flexDirection: "column", alignItems: "center", zIndex: 15, pointerEvents: "auto" }}>
+            <div className="home-bottom-section" style={{ position: "fixed", bottom: "40px", left: "50%", transform: "translateX(-50%) scale(0.67)", transformOrigin: "center bottom", display: "flex", flexDirection: "column", alignItems: "center", zIndex: 15, pointerEvents: "auto" }}>
 
               {/* Merit Box + Dream Bowl */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "60px", marginTop: "8px" }}>
