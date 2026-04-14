@@ -485,7 +485,7 @@ export default function DiscoverPage() {
                     Balance: ${usdcBalanceUsd.toFixed(2)}
                   </span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}>
                   <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1</span>
                   <span style={{
                     padding: "6px 12px", borderRadius: "16px",
