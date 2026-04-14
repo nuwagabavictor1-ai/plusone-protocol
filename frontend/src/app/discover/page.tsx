@@ -577,20 +577,22 @@ export default function DiscoverPage() {
               </button>
 
               {/* Fee info + mini merit box */}
-              <div style={{ padding: "6px 4px 2px", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+              <div style={{ padding: "6px 8px 2px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>
                   $1 to dreamer · $0.20 to Merit Pool (weekly raffle)
                 </span>
-                <svg width="14" height="14" viewBox="0 0 12 12" style={{ imageRendering: "pixelated", flexShrink: 0, opacity: 0.5 }}>
-                  <rect x="1" y="2" width="10" height="1" fill="#8b3333"/>
-                  <rect x="2" y="1" width="8" height="1" fill="#aa4444"/>
-                  <rect x="4" y="1" width="4" height="1" fill="#3a1818"/>
-                  <rect x="1" y="3" width="10" height="6" fill="#cc4444"/>
-                  <rect x="2" y="3" width="8" height="1" fill="#dd5555"/>
-                  <rect x="5" y="4" width="2" height="1" fill="#ffcc33" opacity="0.6"/>
-                  <rect x="4" y="6" width="4" height="1" fill="#ffcc33" opacity="0.5"/>
-                  <rect x="0" y="9" width="12" height="1" fill="#8b3333"/>
-                  <rect x="1" y="10" width="10" height="1" fill="#6b2222"/>
+                <svg width="22" height="22" viewBox="0 0 12 12" style={{ imageRendering: "pixelated", flexShrink: 0 }}>
+                  <rect x="1" y="2" width="10" height="1" fill="#aa3333"/>
+                  <rect x="2" y="1" width="8" height="1" fill="#cc4444"/>
+                  <rect x="4" y="1" width="4" height="1" fill="#4a2020"/>
+                  <rect x="1" y="3" width="10" height="6" fill="#dd4444"/>
+                  <rect x="2" y="3" width="8" height="1" fill="#ee5555"/>
+                  <rect x="5" y="4" width="2" height="1" fill="#ffdd44"/>
+                  <rect x="4" y="6" width="4" height="1" fill="#ffcc33"/>
+                  <rect x="5" y="5" width="2" height="1" fill="#ffdd44" opacity="0.4"/>
+                  <rect x="0" y="9" width="12" height="1" fill="#aa3333"/>
+                  <rect x="1" y="10" width="10" height="1" fill="#882222"/>
+                  <rect x="5" y="0" width="2" height="1" fill="#ffdd44"/>
                 </svg>
               </div>
             </div>
