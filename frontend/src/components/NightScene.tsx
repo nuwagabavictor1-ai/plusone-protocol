@@ -896,6 +896,11 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         onMouseEnter={() => {
           setCharHovered(true)
           charStoppedRef.current = true
+          // Show input for everyone, except those who already shared
+          const alreadyShared = isConnected && address && localStorage.getItem(`plusone_wish_${address}`)
+          if (!alreadyShared) {
+            setWishInput(true)
+          }
         }}
         onMouseLeave={() => {
           setCharHovered(false)
@@ -908,12 +913,6 @@ export function NightScene({ paused = false, excludeRef, onConnectWallet, wallet
         onClick={() => {
           if (!isConnected) {
             onConnectWallet?.()
-            return
-          }
-          // Click to open wish input (not hover)
-          const alreadyShared = address && localStorage.getItem(`plusone_wish_${address}`)
-          if (!alreadyShared) {
-            setWishInput(true)
           }
         }}
       >
