@@ -494,16 +494,16 @@ export default function DiscoverPage() {
                     color: "rgba(255,255,255,0.85)",
                   }}>USDC</span>
                 </div>
-                <div style={{ marginTop: "8px" }}>
+                <div style={{ marginTop: "6px", display: "flex", justifyContent: "flex-end" }}>
                   <select
                     value={sendChain}
                     onChange={e => setSendChain(Number(e.target.value))}
                     style={{
-                      width: "100%", padding: "5px 10px", borderRadius: "10px",
+                      padding: "3px 8px", borderRadius: "8px",
                       border: "none",
                       background: "rgba(255,255,255,0.06)",
-                      color: "rgba(255,255,255,0.6)", fontFamily: "'Righteous', cursive",
-                      fontSize: "9px", outline: "none", cursor: "pointer",
+                      color: "rgba(255,255,255,0.4)", fontFamily: "'Righteous', cursive",
+                      fontSize: "8px", outline: "none", cursor: "pointer",
                     }}
                   >
                     <option value={84532} style={{ background: "#1a1a2e" }}>Base Sepolia</option>
