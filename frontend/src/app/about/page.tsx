@@ -319,6 +319,18 @@ export default function AboutPage() {
 
           <Logo />
 
+          <button onClick={() => router.push("/discover")} style={{
+            fontFamily: "'Righteous', cursive", fontSize: "11px",
+            color: "rgba(255,255,255,0.4)", background: "none", border: "none",
+            cursor: "pointer", marginBottom: "20px", letterSpacing: "0.04em",
+            transition: "color 0.2s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.color = "rgba(255,255,255,0.8)" }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.4)" }}
+          >
+            ← Back
+          </button>
+
           {/* ═══ Tab Navigation ═══ */}
           <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginBottom: "32px" }}>
             {(["Crew", "Guide", "FAQ"] as const).map(t => (
