@@ -315,7 +315,7 @@ export default function AboutPage() {
       <NightScene paused={false} skyOnly auroraColor="160,100,220" />
 
       <main className="relative z-10 min-h-screen px-4 py-16">
-        <div style={{ maxWidth: "520px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
 
           <Logo />
 
@@ -397,7 +397,7 @@ export default function AboutPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    minWidth: "130px",
+                    minWidth: "90px",
                   }}>
                     {"isAvatarGrid" in char && char.isAvatarGrid ? (
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "4px", width: "84px" }}>

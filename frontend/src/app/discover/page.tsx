@@ -480,12 +480,12 @@ export default function DiscoverPage() {
                 marginBottom: "2px",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)" }}>You send</span>
-                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)" }}>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.8)" }}>You send</span>
+                  <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.7)" }}>
                     Balance: ${usdcBalanceUsd.toFixed(2)}
                   </span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "8px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ fontFamily: "'Righteous', cursive", fontSize: "18px", color: "rgba(255,255,255,0.9)" }}>1</span>
                   <span style={{
                     padding: "6px 12px", borderRadius: "16px",
@@ -502,7 +502,7 @@ export default function DiscoverPage() {
                       padding: "3px 8px", borderRadius: "8px",
                       border: "none",
                       background: "rgba(255,255,255,0.06)",
-                      color: "rgba(255,255,255,0.4)", fontFamily: "'Righteous', cursive",
+                      color: "rgba(255,255,255,0.7)", fontFamily: "'Righteous', cursive",
                       fontSize: "8px", outline: "none", cursor: "pointer",
                     }}
                   >
@@ -531,7 +531,7 @@ export default function DiscoverPage() {
                 borderRadius: "13px",
                 background: "rgba(255,255,255,0.04)",
               }}>
-                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: "8px" }}>To</span>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "9px", color: "rgba(255,255,255,0.8)", display: "block", marginBottom: "8px" }}>To</span>
                 <input
                   type="text"
                   value={sendAddr}
@@ -540,7 +540,7 @@ export default function DiscoverPage() {
                   style={{
                     width: "100%", padding: "0", border: "none",
                     background: "transparent",
-                    color: sendAddr ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.25)",
+                    color: sendAddr ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.4)",
                     fontFamily: "var(--font-mono)",
                     fontSize: "11px", outline: "none",
                   }}
@@ -585,7 +585,7 @@ export default function DiscoverPage() {
                   width: "100%", padding: "10px", marginTop: "3px",
                   borderRadius: "13px", border: "none",
                   background: !sendAddr ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg, rgba(255,210,80,0.25), rgba(100,255,150,0.2))",
-                  color: !sendAddr ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.9)",
+                  color: !sendAddr ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.95)",
                   fontFamily: "'Righteous', cursive", fontSize: "12px",
                   cursor: sendAddr ? "pointer" : "default",
                   transition: "all 0.2s",
@@ -597,7 +597,7 @@ export default function DiscoverPage() {
 
               {/* Fee info + mini merit box */}
               <div style={{ padding: "6px 8px 2px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.2)" }}>
+                <span style={{ fontFamily: "'Righteous', cursive", fontSize: "8px", color: "rgba(255,255,255,0.5)" }}>
                   $1 to dreamer · $0.20 to Merit Pool (weekly raffle)
                 </span>
                 <svg width="22" height="22" viewBox="0 0 12 12" onClick={() => router.push("/pool")} style={{ imageRendering: "pixelated", flexShrink: 0, cursor: "pointer" }}>
