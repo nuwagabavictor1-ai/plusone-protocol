@@ -937,6 +937,14 @@ body {
     height: 56px !important;
   }
 
+  /* Homepage: what-if text fit mobile */
+  .home-whatif {
+    max-width: 280px !important;
+  }
+  .home-whatif p {
+    font-size: 1.2rem !important;
+  }
+
   /* Discover: compact layout for mobile */
   .discover-main {
     justify-content: flex-start !important;

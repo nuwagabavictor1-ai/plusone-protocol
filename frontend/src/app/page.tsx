@@ -219,7 +219,7 @@ export default function HomePage() {
           </div>
 
           {/* "what if" — gradient text, each line different hue */}
-          <div className="select-none" style={{ maxWidth: "340px", textAlign: "center" }}>
+          <div className="select-none home-whatif" style={{ maxWidth: "340px", textAlign: "center" }}>
             <p style={{
               fontFamily:    "'Caveat', cursive",
               fontSize:      "1.7rem",
